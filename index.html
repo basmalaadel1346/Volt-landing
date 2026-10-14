@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Volt</title>
+    <style>
+        :root {
+            --bg: #f6f8fc;
+            --card: #fff;
+            --tx: #14213d;
+            --mu: #5b6785;
+            --ac: #f5b700;
+            --ac2: #2563eb;
+            --ok: #16a34a;
+            --bad: #dc2626;
+            --bd: #e2e8f3;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0b1020;
+                --card: #151c33;
+                --tx: #e8ecf8;
+                --mu: #9aa6c7;
+                --bd: #263052
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0b1020;
+            --card: #151c33;
+            --tx: #e8ecf8;
+            --mu: #9aa6c7;
+            --bd: #263052
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--tx);
+            font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+            line-height: 1.6
+        }
+
+        .w {
+            max-width: 1000px;
+            margin: auto;
+            padding: 0 20px
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 20px
+        }
+
+        .logo b {
+            color: var(--ac)
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer
+        }
+
+        .lang {
+            border: 1px solid var(--bd);
+            background: var(--card);
+            color: var(--tx);
+            border-radius: 20px;
+            padding: 6px 14px
+        }
+
+        .hero {
+            text-align: center;
+            padding: 48px 0 32px
+        }
+
+        .hero h1 {
+            font-size: clamp(30px, 6vw, 52px);
+            line-height: 1.15;
+            margin: 0 0 14px
+        }
+
+        .hero h1 span {
+            color: var(--ac2)
+        }
+
+        .hero p {
+            color: var(--mu);
+            max-width: 560px;
+            margin: 0 auto 24px;
+            font-size: 18px
+        }
+
+        .cta {
+            background: var(--ac);
+            color: #14213d;
+            border: 0;
+            border-radius: 12px;
+            padding: 13px 26px;
+            font-weight: 700;
+            font-size: 16px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+            margin: 24px 0
+        }
+
+        .f {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 16px;
+            padding: 18px
+        }
+
+        .f i {
+            font-style: normal;
+            font-size: 26px
+        }
+
+        .f h3 {
+            margin: 6px 0 4px;
+            font-size: 17px
+        }
+
+        .f p {
+            margin: 0;
+            color: var(--mu);
+            font-size: 14px
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            margin: 44px 0 6px
+        }
+
+        .sub {
+            text-align: center;
+            color: var(--mu);
+            margin: 0 0 22px
+        }
+
+        .demo {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 18px;
+            align-items: start
+        }
+
+        @media(max-width:760px) {
+            .demo {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 20px;
+            padding: 20px
+        }
+
+        .bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px
+        }
+
+        .chip {
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 14px;
+            font-weight: 600
+        }
+
+        .q {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 6px 0 12px
+        }
+
+        .opt {
+            display: block;
+            width: 100%;
+            text-align: start;
+            background: var(--bg);
+            color: var(--tx);
+            border: 2px solid var(--bd);
+            border-radius: 12px;
+            padding: 11px 14px;
+            margin: 8px 0
+        }
+
+        .opt:hover:not(:disabled) {
+            border-color: var(--ac2)
+        }
+
+        .opt.ok {
+            border-color: var(--ok);
+            background: rgba(22, 163, 74, .15)
+        }
+
+        .opt.bad {
+            border-color: var(--bad);
+            background: rgba(220, 38, 38, .12)
+        }
+
+        .hint {
+            margin-top: 10px;
+            background: rgba(245, 183, 0, .15);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 14px
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap
+        }
+
+        .sec {
+            background: var(--bg);
+            color: var(--tx);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 8px 14px
+        }
+
+        .sec:disabled {
+            opacity: .5;
+            cursor: default
+        }
+
+        .pri {
+            background: var(--ac2);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-weight: 600
+        }
+
+        .res {
+            text-align: center
+        }
+
+        .res .big {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--ac2)
+        }
+
+        .t {
+            margin: 12px 0
+        }
+
+        .t div.l {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600
+        }
+
+        .pb {
+            height: 9px;
+            background: var(--bg);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 4px
+        }
+
+        .pb i {
+            display: block;
+            height: 100%;
+            background: var(--ac);
+            border-radius: 6px;
+            transition: width .4s
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            counter-reset: s
+        }
+
+        .st {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 14px
+        }
+
+        .st::before {
+            counter-increment: s;
+            content: counter(s);
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: var(--ac);
+            color: #14213d;
+            border-radius: 50%;
+            font-weight: 700;
+            margin-inline-end: 6px
+        }
+
+        a.cta {
+            display: inline-block;
+            text-decoration: none
+        }
+
+        .cta2 {
+            background: transparent;
+            color: var(--tx);
+            border: 2px solid var(--bd);
+            border-radius: 12px;
+            padding: 11px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            margin: 6px
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap
+        }
+
+        .tabs .on {
+            background: var(--ac2);
+            color: #fff;
+            border-color: var(--ac2)
+        }
+
+        .it {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .it:last-child {
+            border: 0
+        }
+
+        .it .ic {
+            font-size: 28px
+        }
+
+        .it .nm {
+            flex: 1;
+            font-weight: 600
+        }
+
+        input.em {
+            background: var(--bg);
+            color: var(--tx);
+            border: 2px solid var(--bd);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font: inherit;
+            min-width: 230px;
+            margin: 6px
+        }
+
+        .lv {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .cv {
+            touch-action: none;
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            color: var(--tx);
+            user-select: none
+        }
+
+        .tray {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 8px 0
+        }
+
+        .tray button {
+            touch-action: none;
+            cursor: grab
+        }
+
+        footer {
+            text-align: center;
+            color: var(--mu);
+            font-size: 13px;
+            padding: 40px 0
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w">
+        <nav>
+            <div class="logo">⚡<b>Volt</b></div><button class="lang" id="lg">العربية</button>
+        </nav>
+
+        <section class="hero">
+            <h1 data-k="h1"></h1>
+            <p data-k="hp"></p>
+            <a class="cta" href="#signup" data-k="signup"></a> <button class="cta2" id="go" data-k="try"></button>
+        </section>
+
+        <div class="grid" id="feat"></div>
+
+        <h2 data-k="dh"></h2>
+        <p class="sub" data-k="ds"></p>
+        <div class="tabs" id="tabs"></div>
+        <div class="demo" id="demo">
+            <div class="panel" id="quiz"></div>
+            <div class="panel">
+                <div class="bar"><span class="chip" id="sp"></span><span class="chip" id="stk"></span><span class="chip"
+                        id="xp"></span></div>
+                <b data-k="map"></b>
+                <div id="topics"></div>
+                <p style="color:var(--mu);font-size:13px;margin:10px 0 0" data-k="mnote"></p>
+            </div>
+        </div>
+
+        <h2 data-k="jh"></h2>
+        <p class="sub" data-k="js"></p>
+        <div class="steps" id="steps"></div>
+
+        <section class="panel" id="signup" style="text-align:center;margin-top:44px">
+            <h2 data-k="sgh" style="margin-top:0"></h2>
+            <p class="sub" data-k="sgs"></p>
+            <div id="sg"></div>
+        </section>
+        <iframe name="gf" hidden></iframe>
+        <footer data-k="ft"></footer>
+    </div>
+
+    <script>
+        const T = {
+            en: {
+                h1: 'Learn electricity,<br><span>spark by spark</span>', hp: 'Short lessons, quizzes with smart hints, daily streaks and rewards. A learning adventure for kids and students.', try: 'Try the demo',
+                dh: 'Try a mini quiz', ds: 'Answer, ask for a hint, and watch your Sparks, streak and progress grow.', map: 'Progress map',
+                mnote: 'Mastery needs at least 5 answers and 80% correct. Stars: 1 learning, 2 practicing, 3 mastered.',
+                jh: 'How it works', js: 'The learner journey',
+                signup: 'Sign up to try the first version', tq: 'Quiz', tp: 'Placement', ts: 'Shop', pt: 'Placement test', pd: 'Six quick questions find your starting level. A level is mastered at 75% or more. You earn 20 Sparks once.', pstart: 'Start placement', pre: 'Retake (demo)', placed: 'You start at', sh: 'Shop', buy: 'Buy', equip: 'Equip', worn: 'Wearing', active: 'Active', max: 'Max held', sgh: 'Be first to try ElectroWorld', sgs: 'Join the early-access list for the first version.', em: 'Your email', ty: 'Thanks! We will email you when the first version is ready.',
+                plvl: ['Level 1: Basics', 'Level 2: Circuits', 'Level 3: Components'],
+                items: [{ id: 'fz', n: 'Streak freeze', p: 20, i: '🧊' }, { id: 'a1', n: 'Robot avatar', p: 30, i: '🤖' }, { id: 'a2', n: 'Fox avatar', p: 30, i: '🦊' }, { id: 'bo', n: 'Double XP for 10 min', p: 40, i: '🚀' }],
+                pq: [{ l: 0, q: 'Which one is a source of electricity?', o: ['Battery', 'Pillow', 'Rubber band'], c: 0 }, { l: 0, q: 'Electric current is the flow of…', o: ['Light', 'Charge', 'Sound'], c: 1 }, { l: 1, q: 'In a series circuit, if one bulb breaks…', o: ['Others get brighter', 'Nothing changes', 'All bulbs go off'], c: 2 }, { l: 1, q: 'A switch is used to…', o: ['Open or close a circuit', 'Make voltage', 'Store charge'], c: 0 }, { l: 2, q: 'What does a capacitor do?', o: ['Makes heat only', 'Stores charge', 'Produces light'], c: 1 }, { l: 2, q: 'A resistor…', o: ['Creates voltage', 'Stores energy', 'Limits current'], c: 2 }],
+                tg: 'Games', tl: 'Circuit Lab', gt: 'Spark Dash', gd: 'True or false in 20 seconds. A wrong answer costs a heart. Every correct answer is one Spark.', gst: 'Start', gl: 'Last score', tr: 'True', fl: 'False', lt: 'Circuit Lab', ld: 'Change the circuit and watch the bulb. I = V ÷ R.', req: 'Total R', cur: 'Current', pow: 'Power', volt: 'Voltage', ser: 'Series', par: 'Parallel', sw: 'Switch', on: 'On', off: 'Off',
+                gq: [['Current is measured in amperes.', 1], ['Rubber is a good conductor.', 0], ['Voltage pushes charge around a circuit.', 1], ['A resistor increases the current.', 0], ['In series, resistances add up.', 1], ['An open switch lets current flow.', 0], ['Ohm law says V = I × R.', 1], ['More resistance means more current at the same voltage.', 0], ['A battery is a source of voltage.', 1], ['Copper wire is an insulator.', 0]],
+                tj: 'Project Lab', coach: 'Ask AI Coach', clr: 'Clear', tools: 'Suggested tools', dh: 'Drag parts onto the canvas. Tap a terminal, then another, to draw a wire. Tap a wire to remove it. Tap a switch to flip it.', cnote: 'Prototype: the coach is rule-based here. The real app asks the AI hint service, which also never gives the full answer.', again2: 'Now try it yourself.', pdn: 'Project complete! +10 Sparks', ok: 'Great! Your circuit works.', mp1: 'Your project needs another part. Check the suggested tools.', mp2: 'You still need: ',
+                pn: { bat: 'Battery', sw: 'Switch', res: 'Resistor', led: 'LED', bulb: 'Bulb' },
+                ch: { empty: ['Start by dragging parts from the tray onto the canvas.', 'Drag a battery and a bulb, then connect them with wires.'], nobat: ['Every circuit needs something to push the charge. What is missing?', 'Add a battery, then connect it into your loop.'], short: ['Look at the wires on the battery. Does the current have to pass through anything?', 'Wires join + and - directly. Put a part such as a resistor or bulb between them.'], open: ['Trace the path from the battery + with your finger. Does it come back to - ?', 'A terminal is not connected. Complete the loop so it returns to the battery.'], swoff: ['Your loop is complete. Look at the switch.', 'Tap the switch to close it.'], ledr: ['An LED can burn out with too much current. What limits current?', 'Put a resistor in the loop in series with the LED.'], ledrev: ['An LED works in one direction only. Look at its two terminals.', 'Flip the LED so its + side faces the battery +.'] },
+                pj: [{ n: 'Light a bulb', g: 'Make a bulb glow using a battery.', p: ['bat', 'bulb'] }, { n: 'Safe LED', g: 'Light an LED without burning it out.', p: ['bat', 'res', 'led'] }, { n: 'Night light with switch', g: 'Build an LED light you can turn on and off.', p: ['bat', 'sw', 'res', 'led'] }],
+                spk: 'Sparks', stk: 'day streak', xp: 'XP', hint: 'Hint', hl: 'hints left', next: 'Next', fin: 'See result', again: 'Play again', retry: 'Retry wrong answers',
+                score: 'Score', earned: 'You earned', bonus: 'perfect bonus', frz: 'Streak freeze ready', of: 'of',
+                feat: [['🎯', 'Placement test', 'A short first-run test finds the right starting level.'], ['🔓', 'Lesson unlocking', 'Pass a lesson quiz to open the next lesson.'], ['💡', 'Smart hints', 'Up to two escalating hints that never reveal the answer.'], ['🔥', 'Streaks & freezes', 'Daily streaks. Spend Sparks on a freeze to protect them.'], ['🛒', 'Shop', 'Avatars, streak freezes and timed XP boosts.'], ['🌍', 'Arabic & English', 'Choose your language at any time.']],
+                steps: ['Open the app as a guest or sign in', 'Take the placement test', 'Study a level lesson', 'Pass the lesson quiz, earn Sparks', 'Use hints, retry wrong answers once', 'Watch topics reach mastery'],
+                ft: 'ElectroWorld prototype. Demo data only.',
+                topics: ['Voltage & current', 'Resistors', 'Ohm\'s law'],
+                qs: [{ t: 0, q: 'What unit measures electric current?', o: ['Ampere', 'Volt', 'Ohm'], c: 0, h: ['Think of the flow of charge per second.', 'It is named after a French physicist, and its symbol is A.'] },
+                { t: 1, q: 'Two equal resistors in series: the total resistance is…', o: ['Half of one', 'Double one', 'The same as one'], c: 1, h: ['In series, resistances add up.', 'Add the two values together.'] },
+                { t: 2, q: 'If voltage is 10 V and resistance is 5 Ω, the current is…', o: ['50 A', '2 A', '0.5 A'], c: 1, h: ['Use I = V ÷ R.', 'Divide 10 by 5.'] }]
+            },
+            ar: {
+                h1: 'تعلّم الكهرباء،<br><span>شرارة بعد شرارة</span>', hp: 'دروس قصيرة، اختبارات بتلميحات ذكية، سلاسل يومية ومكافآت. مغامرة تعلّم للأطفال والطلاب.', try: 'جرّب العرض',
+                dh: 'جرّب اختبارًا صغيرًا', ds: 'أجب واطلب تلميحًا وشاهد شراراتك وسلسلتك وتقدّمك يكبر.', map: 'خريطة التقدّم',
+                mnote: 'الإتقان يحتاج 5 إجابات على الأقل و80% صحيحة. النجوم: 1 تعلّم، 2 تدرّب، 3 إتقان.',
+                jh: 'كيف يعمل', js: 'رحلة المتعلّم',
+                signup: 'سجّل لتجرّب النسخة الأولى', tq: 'اختبار', tp: 'تحديد المستوى', ts: 'المتجر', pt: 'اختبار تحديد المستوى', pd: 'ستة أسئلة سريعة تحدد مستوى البداية. يُتقن المستوى بنسبة 75% أو أكثر. تكسب 20 شرارة مرة واحدة.', pstart: 'ابدأ الاختبار', pre: 'أعد الاختبار (عرض)', placed: 'تبدأ من', sh: 'المتجر', buy: 'شراء', equip: 'ارتداء', worn: 'مُرتدى', active: 'نشط', max: 'الحد الأقصى', sgh: 'كن أول من يجرّب ElectroWorld', sgs: 'انضم إلى قائمة الوصول المبكر للنسخة الأولى.', em: 'بريدك الإلكتروني', ty: 'شكرًا! سنراسلك عندما تصبح النسخة الأولى جاهزة.',
+                plvl: ['المستوى 1: الأساسيات', 'المستوى 2: الدوائر', 'المستوى 3: المكونات'],
+                items: [{ id: 'fz', n: 'تجميد السلسلة', p: 20, i: '🧊' }, { id: 'a1', n: 'صورة الروبوت', p: 30, i: '🤖' }, { id: 'a2', n: 'صورة الثعلب', p: 30, i: '🦊' }, { id: 'bo', n: 'نقاط خبرة مضاعفة 10 دقائق', p: 40, i: '🚀' }],
+                pq: [{ l: 0, q: 'أيٌّ مما يلي مصدر للكهرباء؟', o: ['بطارية', 'وسادة', 'رباط مطاطي'], c: 0 }, { l: 0, q: 'التيار الكهربائي هو تدفق…', o: ['الضوء', 'الشحنة', 'الصوت'], c: 1 }, { l: 1, q: 'في دائرة على التوالي، إذا احترق مصباح واحد…', o: ['تزداد إضاءة الباقي', 'لا شيء يتغير', 'تنطفئ كل المصابيح'], c: 2 }, { l: 1, q: 'يُستخدم المفتاح من أجل…', o: ['فتح الدائرة أو غلقها', 'توليد الجهد', 'تخزين الشحنة'], c: 0 }, { l: 2, q: 'ماذا يفعل المكثّف؟', o: ['يُنتج حرارة فقط', 'يخزّن الشحنة', 'يُنتج ضوءًا'], c: 1 }, { l: 2, q: 'المقاومة…', o: ['تولّد الجهد', 'تخزّن الطاقة', 'تحدّ من التيار'], c: 2 }],
+                tg: 'ألعاب', tl: 'مختبر الدوائر', gt: 'سباق الشرارة', gd: 'صح أم خطأ خلال 20 ثانية. الإجابة الخاطئة تكلّفك قلبًا. كل إجابة صحيحة تساوي شرارة.', gst: 'ابدأ', gl: 'آخر نتيجة', tr: 'صح', fl: 'خطأ', lt: 'مختبر الدوائر', ld: 'غيّر الدائرة وشاهد المصباح. I = V ÷ R.', req: 'المقاومة الكلية', cur: 'التيار', pow: 'القدرة', volt: 'الجهد', ser: 'توالي', par: 'توازي', sw: 'المفتاح', on: 'يعمل', off: 'متوقف',
+                gq: [['يُقاس التيار بالأمبير.', 1], ['المطاط موصل جيد.', 0], ['الجهد يدفع الشحنة في الدائرة.', 1], ['المقاومة تزيد التيار.', 0], ['على التوالي تُجمع المقاومات.', 1], ['المفتاح المفتوح يسمح بمرور التيار.', 0], ['قانون أوم: V = I × R.', 1], ['كلما زادت المقاومة زاد التيار عند نفس الجهد.', 0], ['البطارية مصدر للجهد.', 1], ['سلك النحاس عازل.', 0]],
+                tj: 'مختبر المشاريع', coach: 'اسأل مدرّب الذكاء', clr: 'مسح', tools: 'أدوات مقترحة', dh: 'اسحب القطع إلى اللوحة. اضغط طرفًا ثم طرفًا آخر لرسم سلك. اضغط السلك لحذفه. اضغط المفتاح لقلبه.', cnote: 'نموذج أولي: المدرّب هنا يعمل بقواعد. التطبيق الحقيقي يسأل خدمة تلميحات الذكاء ولا يعطي الحل الكامل أبدًا.', again2: 'جرّب الآن بنفسك.', pdn: 'أنهيت المشروع! +10 شرارات', ok: 'رائع! دائرتك تعمل.', mp1: 'مشروعك يحتاج قطعة أخرى. راجع الأدوات المقترحة.', mp2: 'لا تزال تحتاج: ',
+                pn: { bat: 'بطارية', sw: 'مفتاح', res: 'مقاومة', led: 'مصباح LED', bulb: 'مصباح' },
+                ch: { empty: ['ابدأ بسحب القطع من الصندوق إلى اللوحة.', 'اسحب بطارية ومصباحًا ثم صلهما بأسلاك.'], nobat: ['كل دائرة تحتاج شيئًا يدفع الشحنة. ما الناقص؟', 'أضف بطارية ثم صلها بدائرتك.'], short: ['انظر إلى أسلاك البطارية. هل يمر التيار بشيء ما؟', 'الأسلاك تصل + بـ - مباشرة. ضع قطعة مثل مقاومة أو مصباح بينهما.'], open: ['تتبع بأصبعك المسار من + البطارية. هل يعود إلى - ؟', 'أحد الأطراف غير موصول. أكمل الحلقة لتعود إلى البطارية.'], swoff: ['حلقتك مكتملة. انظر إلى المفتاح.', 'اضغط المفتاح لتغلقه.'], ledr: ['مصباح LED قد يحترق مع تيار كبير. ما الذي يحد من التيار؟', 'ضع مقاومة في الحلقة على التوالي مع الـ LED.'], ledrev: ['مصباح LED يعمل في اتجاه واحد فقط. انظر إلى طرفيه.', 'اقلب الـ LED ليكون طرفه + من جهة + البطارية.'] },
+                pj: [{ n: 'أضئ مصباحًا', g: 'اجعل مصباحًا يضيء ببطارية.', p: ['bat', 'bulb'] }, { n: 'LED آمن', g: 'أضئ LED دون أن يحترق.', p: ['bat', 'res', 'led'] }, { n: 'مصباح ليلي بمفتاح', g: 'ابنِ ضوء LED يمكن تشغيله وإيقافه.', p: ['bat', 'sw', 'res', 'led'] }],
+                spk: 'شرارات', stk: 'يوم متتالٍ', xp: 'نقاط خبرة', hint: 'تلميح', hl: 'تلميحات متبقية', next: 'التالي', fin: 'عرض النتيجة', again: 'العب مجددًا', retry: 'أعد الأسئلة الخاطئة',
+                score: 'النتيجة', earned: 'حصلت على', bonus: 'مكافأة الدرجة الكاملة', frz: 'تجميد السلسلة جاهز', of: 'من',
+                feat: [['🎯', 'اختبار تحديد المستوى', 'اختبار قصير في البداية يحدد مستواك المناسب.'], ['🔓', 'فتح الدروس', 'انجح في اختبار الدرس لتفتح الدرس التالي.'], ['💡', 'تلميحات ذكية', 'تلميحان متدرّجان لا يكشفان الإجابة أبدًا.'], ['🔥', 'السلاسل والتجميد', 'سلسلة يومية. اصرف الشرارات على تجميد لحمايتها.'], ['🛒', 'المتجر', 'صور رمزية وتجميد السلسلة ومضاعفات نقاط مؤقتة.'], ['🌍', 'عربي وإنجليزي', 'اختر لغتك في أي وقت.']],
+                steps: ['افتح التطبيق كزائر أو سجّل الدخول', 'أجرِ اختبار تحديد المستوى', 'ادرس درسًا من المستوى', 'انجح في اختبار الدرس واكسب شرارات', 'استخدم التلميحات وأعد الخاطئ مرة واحدة', 'شاهد المواضيع تصل إلى الإتقان'],
+                ft: 'نموذج أولي لـ ElectroWorld. بيانات تجريبية فقط.',
+                topics: ['الجهد والتيار', 'المقاومات', 'قانون أوم'],
+                qs: [{ t: 0, q: 'ما وحدة قياس التيار الكهربائي؟', o: ['أمبير', 'فولت', 'أوم'], c: 0, h: ['فكّر في تدفق الشحنة كل ثانية.', 'سُميت على اسم عالم فرنسي ورمزها A.'] },
+                { t: 1, q: 'مقاومتان متساويتان على التوالي: المقاومة الكلية…', o: ['نصف واحدة', 'ضعف واحدة', 'مثل واحدة'], c: 1, h: ['على التوالي تُجمع المقاومات.', 'اجمع القيمتين معًا.'] },
+                { t: 2, q: 'إذا كان الجهد 10 فولت والمقاومة 5 أوم، فالتيار…', o: ['50 أمبير', '2 أمبير', '0.5 أمبير'], c: 1, h: ['استخدم I = V ÷ R.', 'اقسم 10 على 5.'] }]
+            }
+        };
+        let L = 'en', S = { sp: 30, st: 3, xp: 0, ans: [0, 0, 0], cor: [0, 0, 0], fz: 1, bo: 0, av: '', own: {}, placed: null };
+        let i = 0, list = [0, 1, 2], pick = null, hints = 0, wrong = [], right = 0, retried = false;
+        const $ = id => document.getElementById(id), t = () => T[L];
+        function txt() {
+            tabsDraw(); sgDraw(); document.documentElement.lang = L; document.documentElement.dir = L == 'ar' ? 'rtl' : 'ltr'; $('lg').textContent = L == 'ar' ? 'English' : 'العربية';
+            document.querySelectorAll('[data-k]').forEach(e => { e.innerHTML = t()[e.dataset.k] });
+            $('feat').innerHTML = t().feat.map(f => `<div class="f"><i>${f[0]}</i><h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('');
+            $('steps').innerHTML = t().steps.map(s => `<div class="st">${s}</div>`).join('');
+            stats(); topics(); draw()
+        }
+        function stats() { $('sp').textContent = '✨ ' + S.sp + ' ' + t().spk; $('stk').textContent = (S.av ? S.av + ' ' : '') + '🔥 ' + S.st + ' ' + t().stk + (S.fz ? ' · 🧊' + S.fz : ''); $('xp').textContent = '⭐ ' + S.xp + ' ' + t().xp }
+        function topics() {
+            $('topics').innerHTML = t().topics.map((n, k) => {
+                const a = S.ans[k], c = S.cor[k], p = a ? Math.round(c / a * 100) : 0;
+                const star = !a ? 0 : c * 100 < 50 * a ? 1 : (c * 100 >= 80 * a && a >= 5) ? 3 : 2;
+                return `<div class="t"><div class="l"><span>${n}</span><span>${'★'.repeat(star) + '☆'.repeat(3 - star)}</span></div><div class="pb"><i style="width:${p}%"></i></div></div>`
+            }).join('')
+        }
+        function draw() { if (mode == 'p') return pDraw(); if (mode == 's') return shDraw(); if (mode == 'g') return gDraw(); if (mode == 'l' || mode == 'j') return cbDraw(); qDraw() }
+        function qDraw() {
+            const q = $('quiz');
+            if (i >= list.length) {
+                const n = list.length, pc = Math.round(right / n * 100); const perfect = right == n;
+                q.innerHTML = `<div class="res"><div class="big">${pc}%</div><p>${t().score}: ${right} ${t().of} ${n}</p><p>${t().earned} ${5 + (perfect ? 10 : 0)} ${t().spk}${perfect ? ' (' + t().bonus + ')' : ''}</p>
+<div class="row" style="justify-content:center">${wrong.length && !retried ? `<button class="sec" id="rt">${t().retry}</button>` : ''}<button class="pri" id="ag">${t().again}</button></div></div>`;
+                $('ag').onclick = () => start([0, 1, 2], false);
+                if ($('rt')) $('rt').onclick = () => start(wrong.slice(), true); return
+            }
+            const Q = t().qs[list[i]];
+            q.innerHTML = `<div class="bar"><span class="chip">${i + 1}/${list.length}</span></div><div class="q">${Q.q}</div>` +
+                Q.o.map((o, k) => `<button class="opt${pick !== null ? (k == Q.c ? ' ok' : k == pick ? ' bad' : '') : ''}" data-k="${k}" ${pick !== null ? 'disabled' : ''}>${o}</button>`).join('') +
+                `<div id="hs">${Q.h.slice(0, hints).map(h => `<div class="hint">💡 ${h}</div>`).join('')}</div>
+<div class="row"><button class="sec" id="hb" ${hints >= 2 || pick !== null ? 'disabled' : ''}>💡 ${t().hint} (${2 - hints} ${t().hl})</button>${pick !== null ? `<button class="pri" id="nx">${i == list.length - 1 ? t().fin : t().next}</button>` : ''}</div>`;
+            q.querySelectorAll('.opt').forEach(b => b.onclick = () => { pick = +b.dataset.k; const ok = pick == Q.c, tp = Q.t; S.ans[tp]++; if (ok) { S.cor[tp]++; S.xp += boost() ? 2 : 1; right++ } else wrong.push(list[i]); stats(); topics(); draw() });
+            $('hb').onclick = () => { hints++; draw() };
+            if ($('nx')) $('nx').onclick = () => { i++; pick = null; hints = 0; if (i >= list.length) { S.sp += 5 + (right == list.length ? 10 : 0); S.st = S.st + (S.lastDay ? 0 : 1); S.lastDay = 1; stats() } draw() }
+        }
+        function start(l, r) { list = l; retried = r; i = 0; pick = null; hints = 0; right = 0; wrong = []; draw() }
+        let mode = 'q', P = { i: 0, a: [], s: 0 };
+        function boost() { return S.bo > Date.now() }
+        function tabsDraw() { $('tabs').innerHTML = [['q', t().tq], ['p', t().tp], ['s', t().ts], ['g', t().tg], ['l', t().tl], ['j', t().tj]].map(x => `<button class="sec${mode == x[0] ? ' on' : ''}" data-m="${x[0]}">${x[1]}</button>`).join(''); $('tabs').querySelectorAll('button').forEach(b => b.onclick = () => { gEnd(); mode = b.dataset.m; tabsDraw(); draw() }) }
+        function pres() { return `<p>${t().placed} <b>${t().plvl[S.placed]}</b></p>` + S.plr.map((x, k) => `<div class="lv"><span>${t().plvl[k]}</span><span>${x.e}/${x.c} ${x.m ? '✓' : '✗'}</span></div>`).join('') }
+        function pDraw() {
+            const q = $('quiz'), pq = t().pq, n = pq.length;
+            if (!P.s) { const done = S.placed != null; q.innerHTML = `<div class="q">${t().pt}</div><p style="color:var(--mu)">${t().pd}</p>` + (done ? pres() : '') + `<div class="row"><button class="pri" id="ps">${done ? t().pre : t().pstart}</button></div>`; $('ps').onclick = () => { P = { i: 0, a: [], s: 1 }; pDraw() }; return }
+            const Q = pq[P.i]; q.innerHTML = `<div class="bar"><span class="chip">${P.i + 1}/${n}</span></div><div class="q">${Q.q}</div>` + Q.o.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join('');
+            q.querySelectorAll('.opt').forEach(b => b.onclick = () => { P.a.push(+b.dataset.k); P.i++; if (P.i >= n) pFin(); else pDraw() })
+        }
+        function pFin() { const r = [0, 0, 0], c = [0, 0, 0]; t().pq.forEach((x, k) => { c[x.l]++; if (P.a[k] == x.c) r[x.l]++ }); S.plr = r.map((e, k) => ({ e, c: c[k], m: e / c[k] * 100 >= 75 })); let p = S.plr.findIndex(x => !x.m); if (p < 0) p = 2; S.placed = p; if (!S.pg) { S.pg = 1; S.sp += 20 } P.s = 0; stats(); pDraw() }
+        function shDraw() {
+            const q = $('quiz'), I = t().items; q.innerHTML = `<div class="q">${t().sh} · ✨ ${S.sp}</div>` + I.map(m => {
+                const buyB = `<button class="pri" data-b="${m.id}" ${S.sp < m.p ? 'disabled' : ''}>${t().buy} ✨${m.p}</button>`; let b;
+                if (m.id == 'fz') b = S.fz >= 2 ? `<button class="sec" disabled>${t().max}</button>` : buyB;
+                else if (m.id == 'bo') b = boost() ? `<button class="sec" disabled>${t().active} · ${Math.ceil((S.bo - Date.now()) / 60000)}m</button>` : buyB;
+                else b = S.own[m.id] ? (S.av == m.i ? `<button class="sec" disabled>${t().worn}</button>` : `<button class="sec" data-e="${m.id}">${t().equip}</button>`) : buyB;
+                return `<div class="it"><span class="ic">${m.i}</span><span class="nm">${m.n}${m.id == 'fz' ? ' (' + S.fz + '/2)' : ''}</span>${b}</div>`
+            }).join('');
+            q.querySelectorAll('[data-b]').forEach(b => b.onclick = () => buy(b.dataset.b)); q.querySelectorAll('[data-e]').forEach(b => b.onclick = () => { S.av = I.find(m => m.id == b.dataset.e).i; stats(); shDraw() })
+        }
+        function buy(id) { const m = t().items.find(x => x.id == id); if (S.sp < m.p) return; S.sp -= m.p; if (id == 'fz') S.fz++; else if (id == 'bo') S.bo = Date.now() + 600000; else { S.own[id] = 1; S.av = m.i } stats(); shDraw() }
+        function sgDraw() {
+            const e = $('sg'); if (S.sent) { e.innerHTML = `<p style="font-weight:700;color:var(--ok)">${t().ty}</p>`; return }
+            e.innerHTML = `<input class="em" id="em" type="email" placeholder="${t().em}"><button class="cta" id="sb">${t().signup}</button>`;
+            $('sb').onclick = () => { const v = $('em').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { $('em').style.borderColor = 'var(--bad)'; return } sendGF(v); S.sent = 1; sgDraw() }
+        }
+        const GF_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdnykC_B9iNOz9hWbYQQdR-i93qE-QdnPSKNOlT91CVKbnSDA/formResponse', GF_ENTRY = 'entry.1120212408';
+        function sendGF(v) { if (!GF_URL) return; const f = document.createElement('form'); f.method = 'POST'; f.action = GF_URL; f.target = 'gf'; f.style.display = 'none'; const i = document.createElement('input'); i.name = GF_ENTRY; i.value = v; f.appendChild(i); document.body.appendChild(f); f.submit(); f.remove() }
+        let G = { on: 0, t: 20, h: 3, s: 0, i: 0, iv: null, o: [], last: null }, B = { v: 6, r1: 20, r2: 20, m: 's', sw: 1 };
+        function gDraw() {
+            const q = $('quiz'), Q = t().gq;
+            if (!G.on) {
+                q.innerHTML = `<div class="q">${t().gt}</div><p style="color:var(--mu)">${t().gd}</p>` + (G.last != null ? `<p>${t().gl}: <b>${G.last}</b></p>` : '') + `<div class="row"><button class="pri" id="gs">${t().gst}</button></div>`;
+                $('gs').onclick = () => { G = { on: 1, t: 20, h: 3, s: 0, i: 0, iv: null, o: Q.map((_, k) => k).sort(() => Math.random() - .5), last: G.last }; gDraw(); G.iv = setInterval(() => { G.t--; const e = $('gt'); if (e) e.textContent = '⏱ ' + G.t; if (G.t <= 0) gEnd() }, 1000) }; return
+            }
+            const it = Q[G.o[G.i % G.o.length]];
+            q.innerHTML = `<div class="bar"><span class="chip" id="gt">⏱ ${G.t}</span><span class="chip">${'❤️'.repeat(G.h) || '💔'}</span><span class="chip">✨ ${G.s}</span></div><div class="q">${it[0]}</div><div class="row"><button class="pri" data-a="1">${t().tr}</button><button class="pri" data-a="0">${t().fl}</button></div>`;
+            q.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { if (+b.dataset.a == it[1]) G.s++; else G.h--; G.i++; if (G.h <= 0) gEnd(); else gDraw() })
+        }
+        function gEnd() { clearInterval(G.iv); if (!G.on) return; G.on = 0; G.last = G.s; S.sp += G.s; stats(); if (mode == 'g') gDraw() }
+        function labDraw() {
+            const q = $('quiz'), o = [10, 20, 50, 100].map(x => `<option>${x}</option>`).join('');
+            q.innerHTML = `<div class="q">${t().lt}</div><p style="color:var(--mu);margin:0 0 6px">${t().ld}</p>
+<svg viewBox="0 0 300 150" width="100%" style="color:var(--tx)" fill="none" stroke="currentColor" stroke-width="2">
+<polyline points="30,98 30,30 270,30 270,130 30,130 30,110"/><line id="br" x1="30" y1="70" x2="270" y2="70"/>
+<line x1="18" y1="98" x2="42" y2="98"/><line x1="24" y1="110" x2="36" y2="110"/><text x="48" y="102" font-size="12" fill="currentColor" stroke="none">+</text>
+<rect id="r1" y="22" width="50" height="16" fill="var(--card)"/><rect id="r2" width="50" height="16" fill="var(--card)"/>
+<text id="t1" y="17" font-size="11" text-anchor="middle" fill="currentColor" stroke="none"></text><text id="t2" font-size="11" text-anchor="middle" fill="currentColor" stroke="none"></text>
+<rect x="180" y="124" width="44" height="12" fill="var(--card)" stroke="none"/><line x1="180" y1="130" x2="196" y2="130"/><line id="lv" x1="196" y1="130"/><line x1="220" y1="130" x2="224" y2="130"/>
+<circle cx="80" cy="130" r="13" fill="var(--card)"/><circle id="gl" cx="80" cy="130" r="13" fill="#f5b700" stroke="none" opacity="0"/><circle cx="80" cy="130" r="13"/></svg>
+<div class="bar" id="ro"></div>
+<label style="font-size:14px">${t().volt}: <input type="range" id="bv" min="1" max="12" value="${B.v}" style="width:60%;vertical-align:middle"></label>
+<div class="row"><select class="sec" id="b1">${o}</select><select class="sec" id="b2">${o}</select><button class="sec" id="bm"></button><button class="sec" id="bs"></button></div>`;
+            $('b1').value = B.r1; $('b2').value = B.r2;
+            $('bv').oninput = e => { B.v = +e.target.value; labUpd() }; $('b1').onchange = e => { B.r1 = +e.target.value; labUpd() }; $('b2').onchange = e => { B.r2 = +e.target.value; labUpd() };
+            $('bm').onclick = () => { B.m = B.m == 's' ? 'p' : 's'; labUpd() }; $('bs').onclick = () => { B.sw = B.sw ? 0 : 1; labUpd() }; labUpd()
+        }
+        function labUpd() {
+            const s = B.m == 's', Rq = s ? B.r1 + B.r2 : B.r1 * B.r2 / (B.r1 + B.r2), I = B.sw ? B.v / Rq : 0, P = B.v * I, x1 = s ? 90 : 125, x2 = s ? 180 : 125, y2 = s ? 22 : 62;
+            $('r1').setAttribute('x', x1); $('r2').setAttribute('x', x2); $('r2').setAttribute('y', y2);
+            $('t1').setAttribute('x', x1 + 25); $('t1').textContent = 'R1 ' + B.r1 + 'Ω'; $('t2').setAttribute('x', x2 + 25); $('t2').setAttribute('y', y2 - 5); $('t2').textContent = 'R2 ' + B.r2 + 'Ω';
+            $('br').style.display = s ? 'none' : ''; $('lv').setAttribute('x2', B.sw ? 220 : 216); $('lv').setAttribute('y2', B.sw ? 130 : 112);
+            $('gl').setAttribute('opacity', I ? Math.min(1, .15 + P / 8) : 0);
+            $('bm').textContent = s ? t().ser : t().par; $('bs').textContent = t().sw + ': ' + (B.sw ? t().on : t().off);
+            $('ro').innerHTML = `<span class="chip">${t().volt} ${B.v} V</span><span class="chip">${t().req} ${+Rq.toFixed(1)} Ω</span><span class="chip">${t().cur} ${+I.toFixed(2)} A</span><span class="chip">${t().pow} ${+P.toFixed(2)} W</span>`
+        }
+        let C = { parts: [], wires: [], sel: null, hl: 0, last: null, proj: 0, pdone: {}, drag: null, mv: 0, id: 1, m: '', sx: 0, sy: 0 };
+        const KS = { bat: '🔋', sw: '🎚️', res: '〰️', led: '💡', bulb: '🔆' };
+        const tpos = s => { const a = s.split('.'), p = C.parts.find(x => x.id == a[0]); return { x: p.x + (a[1] == 'a' ? -26 : 26), y: p.y } };
+        function an() {
+            const P = C.parts, bat = P.find(p => p.k == 'bat'); if (!P.length) return { e: 'empty' }; if (!bat) return { e: 'nobat' };
+            const par = {}, f = x => { if (par[x] == null) par[x] = x; return par[x] == x ? x : (par[x] = f(par[x])) }, u = (a, b) => { par[f(a)] = f(b) };
+            C.wires.forEach(w => u(w[0], w[1])); P.filter(p => p.k == 'sw' && p.on).forEach(p => u(p.id + '.a', p.id + '.b'));
+            const net = (i, s) => f(i + '.' + s), bp = net(bat.id, 'a'), bn = net(bat.id, 'b'); if (bp == bn) return { e: 'short' };
+            const E = (ex, sa) => P.filter(p => p.id != ex && (p.k == 'res' || p.k == 'led' || p.k == 'bulb' || (sa && p.k == 'sw' && !p.on))).map(p => [net(p.id, 'a'), net(p.id, 'b')]);
+            const rc = (a, b, es) => { const v = new Set([a]); let ch = 1; while (ch) { ch = 0; es.forEach(e => { if (v.has(e[0]) && !v.has(e[1])) { v.add(e[1]); ch = 1 } if (v.has(e[1]) && !v.has(e[0])) { v.add(e[0]); ch = 1 } }) } return v.has(b) };
+            if (!rc(bp, bn, E(0, 0))) return { e: rc(bp, bn, E(0, 1)) ? 'swoff' : 'open' };
+            const leds = P.filter(p => p.k == 'led');
+            if (leds.length && !P.some(p => p.k == 'res' && !rc(bp, bn, E(p.id, 0)))) return { e: 'ledr' };
+            for (const l of leds) { const a = net(l.id, 'a'), c = net(l.id, 'b'), es = E(l.id, 0); if (!(rc(bp, a, es) && rc(c, bn, es))) return { e: 'ledrev' } }
+            return { e: null }
+        }
+        function cr() {
+            const sv = $('cnv'); if (!sv) return; const a = an(), ok = !a.e; let s = '';
+            C.wires.forEach((w, i) => { const p = tpos(w[0]), q = tpos(w[1]); s += `<line data-w='${i}' x1='${p.x}' y1='${p.y}' x2='${q.x}' y2='${q.y}' stroke='${ok ? '#16a34a' : 'currentColor'}' stroke-width='4' stroke-linecap='round'/>` });
+            C.parts.forEach(p => {
+                const lit = ok && (p.k == 'led' || p.k == 'bulb');
+                s += (lit ? `<circle cx='${p.x}' cy='${p.y}' r='30' fill='${p.k == 'led' ? '#ef4444' : '#f5b700'}' opacity='.45'/>` : '') + `<g data-id='${p.id}' style='cursor:grab'><rect x='${p.x - 22}' y='${p.y - 16}' width='44' height='32' rx='8' fill='var(--card)' stroke='currentColor' stroke-width='2'/><text x='${p.x}' y='${p.y + 6}' text-anchor='middle' font-size='16' stroke='none' fill='currentColor' pointer-events='none'>${p.k == 'sw' ? (p.on ? '🟢' : '⚪') : KS[p.k]}</text></g>`;
+                ['a', 'b'].forEach(k => { const x = p.x + (k == 'a' ? -26 : 26), id = p.id + '.' + k; s += `<circle data-t='${id}' cx='${x}' cy='${p.y}' r='7' fill='${C.sel == id ? '#f5b700' : 'var(--bg)'}' stroke='currentColor' stroke-width='2'/>` + ((p.k == 'bat' || p.k == 'led') && k == 'a' ? `<text x='${x}' y='${p.y - 11}' font-size='11' text-anchor='middle' stroke='none' fill='currentColor'>+</text>` : '') })
+            });
+            sv.innerHTML = s;
+            if (mode == 'j' && ok) { const J = t().pj[C.proj]; if (J.p.every(k => C.parts.some(p => p.k == k)) && !C.pdone[C.proj]) { C.pdone[C.proj] = 1; S.sp += 10; stats(); $('cm').innerHTML = `<div class='hint'>🎉 ${t().pdn}</div>` } }
+        }
+        function rs0() { C.parts = []; C.wires = []; C.sel = null; C.last = null; C.hl = 0 }
+        function pp(e) { const r = $('cnv').getBoundingClientRect(); return { x: Math.max(30, Math.min(290, (e.clientX - r.left) * 320 / r.width)), y: Math.max(26, Math.min(194, (e.clientY - r.top) * 220 / r.height)) } }
+        function coach() {
+            const a = an(), pr = mode == 'j', J = t().pj[C.proj]; let code = a.e || 'ok';
+            if (pr) { const miss = J.p.filter(k => !C.parts.some(p => p.k == k)); if (miss.length) code = 'mp:' + miss.join(',') }
+            if (C.last != code) { C.last = code; C.hl = 0 } C.hl++; let H;
+            if (code == 'ok') H = t().ok; else if (code[0] == 'm') H = C.hl < 2 ? t().mp1 : t().mp2 + code.slice(3).split(',').map(k => t().pn[k]).join(', ');
+            else H = t().ch[code][Math.min(C.hl, 2) - 1] + (C.hl > 2 ? ' ' + t().again2 : '');
+            $('cm').innerHTML = `<div class='hint'>🤖 ${H}${code == 'ok' ? '' : ' (' + Math.min(C.hl, 2) + '/2)'}</div>`
+        }
+        function cbDraw() {
+            const q = $('quiz'), pr = mode == 'j', J = t().pj[C.proj], kinds = pr ? J.p : Object.keys(KS); if (C.m != mode) { C.m = mode; rs0() }
+            q.innerHTML = `<div class='q'>${pr ? t().tj : t().tl}</div>` + (pr ? `<select class='sec' id='pj'>${t().pj.map((x, k) => `<option value='${k}' ${k == C.proj ? 'selected' : ''}>${x.n}</option>`).join('')}</select><p style='margin:8px 0;font-size:14px'>🎯 ${J.g}<br>🧰 <b>${t().tools}:</b> ${J.p.map(k => KS[k] + ' ' + t().pn[k]).join(' · ')}</p>` : `<p style='color:var(--mu);margin:0 0 4px;font-size:13px'>${t().dh}</p>`) +
+                `<div class='tray' id='tr'>${kinds.map(k => `<button class='sec' data-k='${k}'>${KS[k]} ${t().pn[k]}</button>`).join('')}</div><svg id='cnv' class='cv' viewBox='0 0 320 220' width='100%'></svg><div class='row'><button class='pri' id='ca'>🤖 ${t().coach}</button><button class='sec' id='cc'>${t().clr}</button></div><div id='cm'></div><p style='color:var(--mu);font-size:12px'>${t().cnote}</p>`;
+            const sv = $('cnv');
+            $('tr').onpointerdown = e => { const b = e.target.closest('[data-k]'); if (!b) return; e.preventDefault(); const pt = pp(e), p = { id: C.id++, k: b.dataset.k, x: pt.x, y: pt.y, on: 1 }; C.parts.push(p); C.drag = p; C.mv = 1; cr() };
+            sv.onpointerdown = e => {
+                const d = e.target.dataset;
+                if (d.t) { if (!C.sel) C.sel = d.t; else { if (C.sel.split('.')[0] != d.t.split('.')[0] && !C.wires.some(w => (w[0] == C.sel && w[1] == d.t) || (w[1] == C.sel && w[0] == d.t))) C.wires.push([C.sel, d.t]); C.sel = null } cr() }
+                else if (d.w != null) { C.wires.splice(+d.w, 1); C.sel = null; cr() }
+                else { const g = e.target.closest('[data-id]'); if (g) { C.drag = C.parts.find(p => p.id == g.dataset.id); C.mv = 0; C.sx = e.clientX; C.sy = e.clientY; e.preventDefault() } }
+            };
+            if (!window._dl) { window._dl = 1; document.addEventListener('pointermove', e => { if (!C.drag || !$('cnv')) return; if (Math.hypot(e.clientX - C.sx, e.clientY - C.sy) > 4) C.mv = 1; if (!C.mv) return; const pt = pp(e); C.drag.x = pt.x; C.drag.y = pt.y; cr() }); document.addEventListener('pointerup', () => { if (C.drag) { if (!C.mv && C.drag.k == 'sw') C.drag.on ^= 1; C.drag = null; cr() } }) }
+            $('ca').onclick = coach; $('cc').onclick = () => { rs0(); $('cm').innerHTML = ''; cr() };
+            if ($('pj')) $('pj').onchange = e => { C.proj = +e.target.value; rs0(); cbDraw() }; cr()
+        }
+        $('lg').onclick = () => { L = L == 'en' ? 'ar' : 'en'; txt() };
+        $('go').onclick = () => $('demo').scrollIntoView({ behavior: 'smooth' });
+        txt();
+    </script>
+</body>
+
+</html>
